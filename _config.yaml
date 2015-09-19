@@ -1,0 +1,19 @@
+url: //petrosh.github.io/carello.js
+
+baseurl: /carello.js
+
+permalink: pretty
+# or permalink: /:categories/:title/
+
+highlighter: rouge
+
+markdown: kramdown
+kramdown:
+  auto_ids: true
+
+sass:
+  sass_dir: _sass
+  style: compressed
+
+github:
+  repo: https://github.com/petrosh/carello.js
