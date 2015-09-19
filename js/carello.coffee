@@ -137,6 +137,7 @@ if bodys[0].className == 'home'
     quantity = document.getElementById("quantity").textContent
     if quantity != "0"
       current = JSON.parse( localStorage.getItem("item") )
+      if typeof current isnt 'array' then current = []
       prezzo = if quantity < 3 then document.getElementById("price").textContent else document.getElementById("wholesale").textContent
       item = {
         number: document.getElementById("number").textContent
