@@ -162,7 +162,6 @@ if bodys[0].className == 'home'
           element.setAttribute("disabled", "true")
       setInterval ->
         window.location = "cart/"
-        window.location.reload(true)
         return
       , 1000
       return
