@@ -5,7 +5,8 @@ baseurl: /carello.js
 permalink: pretty
 # or permalink: /:categories/:title/
 
-highlighter: rouge
+# rouge -> is currently unsupported on GitHub Pages
+highlighter: pygments
 
 markdown: kramdown
 kramdown:
