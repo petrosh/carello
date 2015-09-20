@@ -28,6 +28,7 @@ fillCart = ->
       localStorage.setItem( 'item', JSON.stringify( updated ) )
       setInterval ->
         window.location = ""
+        window.location.reload(true)
       , 500
       return
     )
@@ -35,6 +36,8 @@ fillCart = ->
 bodys = document.getElementsByTagName("body")
 document.getElementById("carello").addEventListener('click', (e) ->
   window.location = "{{ site.baseurl }}/"
+  window.location.reload(true)
+  return
 )
 
 # CHECKOUT PAGE
@@ -53,7 +56,7 @@ if bodys[0].className == 'checkout'
     document.getElementById("total").innerHTML = totalone.toFixed(2)
     # ADD PAYPAL BUTTON
     current = JSON.parse( localStorage.getItem("item") )
-    paypalButton = '<script async src="http://0.0.0.0:4000/carello/paypal-button.min.js?merchant=raveup@tiscali.it"
+    paypalButton = '<script async src="{{ site.baseurl }}/js/paypal-button.min.js?merchant=raveup@tiscali.it"
       data-button="paynow"
       data-upload="1"
       data-type="form"
@@ -159,6 +162,7 @@ if bodys[0].className == 'home'
           element.setAttribute("disabled", "true")
       setInterval ->
         window.location = "cart/"
+        window.location.reload(true)
         return
       , 1000
       return
