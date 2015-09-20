@@ -2,20 +2,22 @@
 ---
 fillCart = ->
   current = JSON.parse( localStorage.getItem("item") )
+  if not current then current = {}
   ul = document.getElementById('cart')
   ul.innerHTML = ''
   subtotal = 0
   for ordine in current
     newLi = document.createElement("tr")
-    newLi.innerHTML = '<td><h3><a href="' + ordine.link + '" title="">' + ordine.item + '</a></h3>Number: ' + ordine.number + '<br>Price: €' + ordine.price + '<br>Quantity: ' + ordine.quantity + '</td><td class="bis">€' + ordine.price * ordine.quantity + '</td><td class="bis"><a href="javascript:void(0);" class="remover" data-timestamp="' + ordine.timestamp + '">Remove this item</a></td>';
-    subtotal += parseInt( ordine.price * ordine.quantity )
+    totalino = ordine.price * ordine.quantity
+    newLi.innerHTML = '<td><h3><a href="' + ordine.link + '" title="">' + ordine.item + '</a></h3>Number: ' + ordine.number + '<br>Price: € ' + ordine.price + '<br>Quantity: ' + ordine.quantity + '</td><td class="bis">€ ' + totalino.toFixed(2) + '</td><td class="bis"><a href="javascript:void(0);" class="remover" data-timestamp="' + ordine.timestamp + '">Remove this item</a></td>';
+    subtotal += parseFloat( ordine.price ) * parseInt( ordine.quantity )
     ul.appendChild(newLi)
 
   sub = document.createElement("tr")
-  sub.innerHTML = '<td></td><td class="bis"><h3>Subtotal: €<span id="subtotal"></span></h3></td><td></td>'
+  sub.innerHTML = '<td></td><td class="bis"><h3>Subtotal: € <span id="subtotal"></span></h3></td><td></td>'
   ul.appendChild(sub)
 
-  document.getElementById('subtotal').innerHTML = subtotal
+  document.getElementById('subtotal').innerHTML = subtotal.toFixed(2)
   removers = document.getElementsByClassName("remover")
   for remover in removers
     remover.addEventListener('click', (e) ->
@@ -40,14 +42,15 @@ if bodys[0].className == 'checkout'
   fillCart()
   document.getElementById("zone").addEventListener('change', (e) ->
     zone = document.getElementById("zone").value
-    price = parseInt( document.getElementById("subtotal").textContent )
+    price = parseFloat( document.getElementById("subtotal").textContent )
     switch zone
-      when "italy" then shipping = 7
-      when "europe" then shipping = 10
-      when "overseas" then shipping = 15
+      when "italy" then shipping = .07
+      when "europe" then shipping = .10
+      when "overseas" then shipping = .15
       else shipping = 0
-    document.getElementById("shipping").innerHTML = shipping
-    document.getElementById("total").innerHTML = price + shipping
+    totalone = price + shipping
+    document.getElementById("shipping").innerHTML = shipping.toFixed(2)
+    document.getElementById("total").innerHTML = totalone.toFixed(2)
     # ADD PAYPAL BUTTON
     current = JSON.parse( localStorage.getItem("item") )
     paypalButton = '<script async src="http://0.0.0.0:4000/carello/paypal-button.min.js?merchant=raveup@tiscali.it"
@@ -80,37 +83,37 @@ if bodys[0].className == 'home'
     {
       item: "Tony - Super"
       link: "#0"
-      price: "8"
+      price: "0.08"
       support: "7\""
-      wholesale: "6"
+      wholesale: "0.06"
       number: "rug-001"
     }, {
       item: "Sonic - Boing"
       link: "#1"
-      price: "12"
+      price: "0.12"
       support: "lp"
-      wholesale: "10"
+      wholesale: "0.10"
       number: "rur-099"
     }, {
       item: "Michelle - Lestofant is Nude"
       link: "#2"
-      price: "20"
+      price: "0.20"
       support: "dlp"
-      wholesale: "18"
+      wholesale: "0.18"
       number: "sex-099"
     }, {
       item: "Leslye - Miracle 63"
       link: "#3"
-      price: "12"
+      price: "0.12"
       support: "lp"
-      wholesale: "10"
+      wholesale: "0.10"
       number: "meg-016"
     }, {
       item: "Stoppas - Jaz Matado"
       link: "#4"
-      price: "8"
+      price: "0.08"
       support: "7\""
-      wholesale: "6"
+      wholesale: "0.06"
       number: "rug-777"
     }
   ]
@@ -121,23 +124,25 @@ if bodys[0].className == 'home'
 
   document.getElementById("add").addEventListener('click', (e) ->
     document.getElementById("quantity").textContent++
-    quantity = document.getElementById("quantity").textContent
-    document.getElementById("subtotal").innerHTML = if quantity < 3 then document.getElementById("quantity").textContent * document.getElementById("price").textContent else document.getElementById("quantity").textContent * document.getElementById("wholesale").textContent
+    quantity = Number( document.getElementById("quantity").textContent )
+    result = if quantity < 3 then quantity * Number( document.getElementById("price").textContent ) else quantity * Number( document.getElementById("wholesale").textContent )
+    document.getElementById("subtotal").innerHTML = result.toFixed(2)
     return
   )
   document.getElementById("sub").addEventListener('click', (e) ->
-    quantity = document.getElementById("quantity").textContent
-    if quantity != "0"
+    quantity = Number( document.getElementById("quantity").textContent )
+    if quantity isnt 0
       document.getElementById("quantity").textContent--
       quantity--
-      document.getElementById("subtotal").innerHTML = if quantity < 3 then document.getElementById("quantity").textContent * document.getElementById("price").textContent else document.getElementById("quantity").textContent * document.getElementById("wholesale").textContent
+      result = if quantity < 3 then quantity * Number( document.getElementById("price").textContent ) else quantity * Number( document.getElementById("wholesale").textContent )
+      document.getElementById("subtotal").innerHTML = result.toFixed(2)
       return
   )
   document.getElementById("addcart").addEventListener('click', (e) ->
-    quantity = document.getElementById("quantity").textContent
-    if quantity != "0"
+    quantity = Number( document.getElementById("quantity").textContent )
+    if quantity isnt 0
       current = JSON.parse( localStorage.getItem("item") )
-      if typeof current isnt 'array' then current = []
+      if not current then current = []
       prezzo = if quantity < 3 then document.getElementById("price").textContent else document.getElementById("wholesale").textContent
       item = {
         number: document.getElementById("number").textContent
