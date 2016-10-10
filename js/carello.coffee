@@ -34,11 +34,6 @@ fillCart = ->
     )
 
 bodys = document.getElementsByTagName("body")
-document.getElementById("carello").addEventListener('click', (e) ->
-  window.location = "{{ site.baseurl }}/"
-  window.location.reload(true)
-  return
-)
 
 # CHECKOUT PAGE
 if bodys[0].className == 'checkout'
