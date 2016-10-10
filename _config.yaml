@@ -6,9 +6,9 @@ permalink: pretty
 # or permalink: /:categories/:title/
 
 # rouge -> is currently unsupported on GitHub Pages
-highlighter: pygments
+highlighter: rouge
 
-markdown: rouge
+markdown: kramdown
 kramdown:
   auto_ids: true
 
