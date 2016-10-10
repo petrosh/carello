@@ -8,7 +8,7 @@ permalink: pretty
 # rouge -> is currently unsupported on GitHub Pages
 highlighter: pygments
 
-markdown: kramdown
+markdown: rouge
 kramdown:
   auto_ids: true
 
